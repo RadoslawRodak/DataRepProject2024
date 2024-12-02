@@ -30,10 +30,13 @@ function RecipeDetails() {
         {recipe.steps.map((step, index) => (
           <li key={index}>{step}</li>
         ))}
-
-        
       </ul>
-      {/* You could add more details like ingredients, ratings, etc. here */}
+      <h3>Allergens</h3>
+      <ul>
+        {recipe.allergens.map((allergens, index) => (
+          <li key={index}>{allergens}</li>
+        ))}
+      </ul>
     </div>
   );
 }

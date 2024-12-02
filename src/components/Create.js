@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { Button, Form, Container, Row, Col, Card } from "react-bootstrap";
 
 const Create = () => {
   const [title, setTitle] = useState('');
@@ -57,76 +58,85 @@ const Create = () => {
       .catch((error) => {
         console.error("Error adding the recipe:", error);
       });
-  }
+  };
 
   return (
-    <div>
-      <h3>Add Recipe</h3>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Add Recipe Name: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={title}
-            onChange={(e) => { setTitle(e.target.value); }}
-          />
-        </div>
-        
-        <div className="form-group">
-          <label>Add Instructions:</label>
-          {steps.map((step, index) => (
-            <div key={index} className="step-group">
-              <label>Step {index + 1}: </label>
-              <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                <input
+    <Container className="my-5">
+      <Card className="shadow-lg p-4">
+        <h3 className="text-center mb-4">Add a New Recipe</h3>
+        <Form onSubmit={handleSubmit}>
+          <Row className="mb-3">
+            <Col md={6}>
+              <Form.Group controlId="recipeTitle">
+                <Form.Label>Recipe Name:</Form.Label>
+                <Form.Control
                   type="text"
-                  className="form-control"
-                  value={step}
-                  onChange={(e) => handleStepChange(index, e.target.value)}
+                  placeholder="Enter recipe title"
+                  value={title}
+                  onChange={(e) => { setTitle(e.target.value); }}
+                  required
                 />
-                <button type="button" onClick={() => deleteStep(index)} className="btn btn-danger">
-                  Delete Step
-                </button>
-              </div>
-            </div>
-          ))}
-          <button type="button" onClick={addStep} className="btn btn-secondary mt-2">
-            Add Next Step
-          </button>
-        </div>
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group controlId="recipeImage">
+                <Form.Label>Image URL:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter image URL"
+                  value={image}
+                  onChange={(e) => { setImage(e.target.value); }}                  
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-        <div className="form-group">
-          <label>Add Image: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={image}
-            onChange={(e) => { setImage(e.target.value); }}
-          />
-        </div>
+          <Form.Group className="mb-3">
+            <Form.Label>Instructions:</Form.Label>
+            {steps.map((step, index) => (
+              <Row key={index} className="mb-3">
+                <Col>
+                  <Form.Control
+                    type="text"
+                    value={step}
+                    placeholder={`Step ${index + 1}`}
+                    onChange={(e) => handleStepChange(index, e.target.value)}
+                    required
+                  />
+                </Col>
+                <Col xs="auto" className="align-self-center">
+                  <Button variant="danger" onClick={() => deleteStep(index)} className="btn-sm">
+                    Delete
+                  </Button>
+                </Col>
+              </Row>
+            ))}
+            <Button variant="secondary" onClick={addStep} className="mt-2">Add Next Step</Button>
+          </Form.Group>
 
-        <div className="form-group">
-          <label>Select Allergens: </label>
-          <div>
-            {allergensList.map((allergen) => (
-              <div key={allergen}>
-                <input
+          <Form.Group className="mb-3">
+            <Form.Label>Select Allergens:</Form.Label>
+            <div>
+              {allergensList.map((allergen) => (
+                <Form.Check
+                  key={allergen}
                   type="checkbox"
+                  label={allergen}
                   value={allergen}
                   onChange={handleAllergenChange}
+                  checked={allergens.includes(allergen)}
+                  inline
                 />
-                <label>{allergen}</label>
-              </div>
-            ))}
-          </div>
-        </div>
+              ))}
+            </div>
+          </Form.Group>
 
-        <div>
-          <input type="submit" value="Add Recipe" className="btn btn-primary" />
-        </div>
-      </form>
-    </div>
+          <div className="d-flex justify-content-center">
+            <Button variant="primary" type="submit">Add Recipe</Button>
+          </div>
+        </Form>
+      </Card>
+    </Container>
   );
 };
 
