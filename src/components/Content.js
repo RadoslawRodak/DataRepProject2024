@@ -9,7 +9,6 @@ const Content = () => {
 
   // Fetch the featured recipe from the server when the component mounts
   useEffect(() => {
-    // Replace this with your API URL
     const fetchFeaturedRecipe = async () => {
       try {
         const response = await fetch('http://localhost:4000/api/featured-recipe'); // API endpoint

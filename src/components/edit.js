@@ -98,20 +98,12 @@ const Edit = () => {
                                 value={step}
                                 onChange={(e) => handleStepChange(e, index)}
                             />
-                            <button
-                                type="button"
-                                className="btn btn-danger"
-                                onClick={() => handleRemoveStep(index)}
-                            >
+                            <button type="button" className="btn btn-danger" onClick={() => handleRemoveStep(index)}>
                                 Remove Step
                             </button>
                         </div>
                     ))}
-                    <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={handleAddStep}
-                    >
+                    <button type="button" className="btn btn-secondary" onClick={handleAddStep}>
                         Add Step
                     </button>
                 </div>
