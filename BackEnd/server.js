@@ -23,75 +23,87 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://admin:admin@recipes.rnhgk.mongodb.net/');
 
 const recipeSchema = new mongoose.Schema({
-  title:String,
-  steps:String,
-  image:String
+  title: String,
+  steps: [String], // Steps as an array
+  image: String
 });
 
-//model is a representation of the schema
-const recipeModel = new mongoose.model('sdfsdfsdf45',recipeSchema);
+// Model is a representation of the schema
+const recipeModel = mongoose.model('sdfsdfsdf45', recipeSchema);
 
-//find all recipes
+// Find all recipes
 app.get('/api/recipes', async (req, res) => {
+  try {
     const recipes = await recipeModel.find({});
-    res.status(200).json({recipes})
+    res.status(200).json({ recipes });
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching recipes" });
+  }
 });
 
-//find recipe by id
-app.get('/api/recipe/:id', async (req ,res)=>{
-  const recipe = await recipeModel.findById(req.params.id);
-  res.json(recipe);
-})
+// Find recipe by ID
+app.get('/api/recipe/:id', async (req, res) => {
+  try {
+    const recipe = await recipeModel.findById(req.params.id);
+    if (recipe) {
+      res.status(200).json(recipe);
+    } else {
+      res.status(404).json({ error: "Recipe not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching the recipe" });
+  }
+});
 
-//update recipe by id
-app.put('/api/recipe/:id', async (req, res)=>{
-  const recipe = await recipeModel.findByIdAndUpdate(req.params.id, req.body, {new:true});
-  res.send(recipe);
-})
+// Update recipe by ID
+app.put('/api/recipe/:id', async (req, res) => {
+  try {
+    const recipe = await recipeModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (recipe) {
+      res.status(200).send(recipe);
+    } else {
+      res.status(404).json({ error: "Recipe not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error updating the recipe" });
+  }
+});
 
-//delete recipe by id
+// Delete recipe by ID
 app.delete('/api/recipe/:id', async (req, res) => {
-  
-  console.log('Deleting recipe with ID:', req.params.id);
-  const recipe = await recipeModel.findByIdAndDelete(req.params.id);
-  res.status(200).send({ message: "Recipe deleted successfully", recipe });
-  
+  try {
+    console.log('Deleting recipe with ID:', req.params.id);
+    const recipe = await recipeModel.findByIdAndDelete(req.params.id);
+    if (recipe) {
+      res.status(200).send({ message: "Recipe deleted successfully", recipe });
+    } else {
+      res.status(404).json({ error: "Recipe not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error deleting the recipe" });
+  }
 });
 
-//add movie
-app.post('/api/recipes',async (req, res)=>{
+// Add a new recipe
+app.post('/api/recipes', async (req, res) => {
+  try {
     console.log(req.body.title);
-    const {title, steps, image} = req.body;
+    const { title, steps, image } = req.body;
 
-    const newRecipe = new recipeModel({title, steps, image});
+    if (!Array.isArray(steps)) {
+      return res.status(400).json({ error: "Steps must be an array of strings" });
+    }
+
+    const newRecipe = new recipeModel({ title, steps, image });
     await newRecipe.save();
 
-    res.status(201).json({"message":"Recipe Added!",Recipe:newRecipe});
-})
-
-//always has to be at the bottom, code works down from the top and must end with this
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    res.status(201).json({ message: "Recipe Added!", Recipe: newRecipe });
+  } catch (error) {
+    res.status(500).json({ error: "Error adding the recipe" });
+  }
 });
 
-// {
-//   "Title": "Avengers: Infinity War (server)",
-//   "Year": "2018",
-//   "imdbID": "tt4154756",
-//   "Type": "movie",
-//   "Poster": "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg"
-// },
-// {
-//   "Title": "Captain America: Civil War (server)",
-//   "Year": "2016",
-//   "imdbID": "tt3498820",
-//   "Type": "movie",
-//   "Poster": "https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_SX300.jpg"
-// },
-// {
-//   "Title": "World War Z (server)",
-//   "Year": "2013",
-//   "imdbID": "tt0816711",
-//   "Type": "movie",
-//   "Poster": "https://m.media-amazon.com/images/M/MV5BNDQ4YzFmNzktMmM5ZC00MDZjLTk1OTktNDE2ODE4YjM2MjJjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg"
-// }
+// Always has to be at the bottom
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});

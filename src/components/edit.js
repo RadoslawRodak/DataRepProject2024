@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Edit = () => {
     const {id} = useParams(); //useParams hook is used to access the URL parameter and extract the id
     const [title, setTitle] = useState(''); //useState hook is used to create a state variable
-    const [steps, setSteps] = useState(''); //useState hook is used to create a state variable
+    const [steps, setSteps] = useState(['']); //useState hook is used to create a state variable
     const [image, setImage] = useState(''); //useState hook is used to create a state variable
     const navigate = useNavigate(); //useNavigate hook is used to navigate to a different URL
 
