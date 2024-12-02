@@ -17,6 +17,11 @@ function RecipeDetails() {
       });
   }, [id]);  // Re-fetch if the recipe ID changes
 
+  //used to handle the case when the recipe data is still being fetched from the server and hasn't been loaded
+  if (!recipe) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <h1>{recipe.title}</h1>
