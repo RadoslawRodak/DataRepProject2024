@@ -25,11 +25,12 @@ mongoose.connect('mongodb+srv://admin:admin@recipes.rnhgk.mongodb.net/');
 const recipeSchema = new mongoose.Schema({
   title: String,
   steps: [String], // Steps as an array
-  image: String
+  image: String,
+  allergens: [String]
 });
 
 // Model is a representation of the schema
-const recipeModel = mongoose.model('sdfsdfsdf45', recipeSchema);
+const recipeModel = mongoose.model('Recipes', recipeSchema);
 
 // Find all recipes
 app.get('/api/recipes', async (req, res) => {
@@ -88,13 +89,13 @@ app.delete('/api/recipe/:id', async (req, res) => {
 app.post('/api/recipes', async (req, res) => {
   try {
     console.log(req.body.title);
-    const { title, steps, image } = req.body;
+    const { title, steps, image, allergens } = req.body;
 
     if (!Array.isArray(steps)) {
       return res.status(400).json({ error: "Steps must be an array of strings" });
     }
 
-    const newRecipe = new recipeModel({ title, steps, image });
+    const newRecipe = new recipeModel({ title, steps, image, allergens });
     await newRecipe.save();
 
     res.status(201).json({ message: "Recipe Added!", Recipe: newRecipe });
@@ -102,6 +103,25 @@ app.post('/api/recipes', async (req, res) => {
     res.status(500).json({ error: "Error adding the recipe" });
   }
 });
+
+// randomly select recipe to appear on main page
+app.get('/api/featured-recipe', async (req, res) => {
+    try {
+      // This will randomly select a recipe from the database
+      const count = await recipeModel.countDocuments(); // Count the number of recipes in the database
+      const randomIndex = Math.floor(Math.random() * count); // Pick a random index
+  
+      const featuredRecipe = await recipeModel.findOne().skip(randomIndex); // Get a random recipe based on the index
+  
+      if (featuredRecipe) {
+        res.status(200).json(featuredRecipe);
+      } else {
+        res.status(404).json({ error: "No recipes found" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Error fetching featured recipe" });
+    }
+  });
 
 // Always has to be at the bottom
 app.listen(port, () => {

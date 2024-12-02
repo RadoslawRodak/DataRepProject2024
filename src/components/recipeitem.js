@@ -23,12 +23,26 @@ function RecipeItem(props) {
         <Card.Body>
           <blockquote className="blockquote mb-0">
             <img src={props.myRecipe.image} alt={props.myRecipe.title} />
-            {/* Displaying steps individually */}
+            
+            {/* Displaying steps */}
+            <h5>Steps:</h5>
             <ul>
               {props.myRecipe.steps.map((step, index) => (
                 <li key={index}>{step}</li>
               ))}
             </ul>
+
+            {/* Displaying allergens */}
+            {props.myRecipe.allergens && props.myRecipe.allergens.length > 0 && (
+              <div>
+                <h5>Allergens:</h5>
+                <ul>
+                  {props.myRecipe.allergens.map((allergen, index) => (
+                    <li key={index}>{allergen}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </blockquote>
         </Card.Body>
         <Link className="btn btn-primary" to={"/edit/"+props.myRecipe._id}>Edit</Link>

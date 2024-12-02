@@ -4,6 +4,7 @@ import Content from './components/Content';
 import AddRecipe from './components/Read';
 import DeleteRecipe from './components/Create';
 import Edit from './components/edit';
+import RecipeDetails from './components/RecipeDetails';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/read" element={<AddRecipe/>} />
         <Route path="/create" element={<DeleteRecipe/>} />
         <Route path='/edit/:id' element={<Edit />} />
+        <Route path="/recipe/:id" element={<RecipeDetails />} />
       </Routes>
     </Router>
   );
