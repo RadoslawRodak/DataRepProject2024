@@ -17,14 +17,14 @@ function RecipeDetails() {
       });
   }, [id]);  // Re-fetch if the recipe ID changes
 
-  if (!recipe) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
       <h1>{recipe.title}</h1>
-      <img src={recipe.image} alt={recipe.title} />
+      <img 
+        src={recipe.image} 
+        alt={recipe.title} 
+        style={{ width: '100%', height: 'auto', maxWidth: '600px' }} 
+      />
       <h3>Steps</h3>
       <ul>
         {recipe.steps.map((step, index) => (
@@ -33,8 +33,8 @@ function RecipeDetails() {
       </ul>
       <h3>Allergens</h3>
       <ul>
-        {recipe.allergens.map((allergens, index) => (
-          <li key={index}>{allergens}</li>
+        {recipe.allergens.map((allergen, index) => (
+          <li key={index}>{allergen}</li>
         ))}
       </ul>
     </div>
