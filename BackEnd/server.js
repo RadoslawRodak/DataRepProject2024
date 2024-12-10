@@ -19,17 +19,19 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+//MongoDB connection
 const mongoose = require('mongoose');
+//connect to the database
 mongoose.connect('mongodb+srv://admin:admin@recipes.rnhgk.mongodb.net/');
 
-const recipeSchema = new mongoose.Schema({
+const recipeSchema = new mongoose.Schema({ //Schema(blueprint) for the recipe
   title: String,
   steps: [String], // Steps as an array
   image: String,
-  allergens: [String]
+  allergens: [String] //allergens as array
 });
 
-// Model is a representation of the schema
+// RecipeModel is a representation of the schema
 const recipeModel = mongoose.model('Recipes', recipeSchema);
 
 // Find all recipes
@@ -95,7 +97,7 @@ app.post('/api/recipes', async (req, res) => {
       return res.status(400).json({ error: "Steps must be an array of strings" });
     }
 
-    const newRecipe = new recipeModel({ title, steps, image, allergens });
+    const newRecipe = new recipeModel({ title, steps, image, allergens }); //Add a new recipe object
     await newRecipe.save();
 
     res.status(201).json({ message: "Recipe Added!", Recipe: newRecipe });
