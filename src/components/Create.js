@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Button, Form, Container, Row, Col, Card } from "react-bootstrap";
+import { Button, Form, Container, Row, Col, Card, Modal } from "react-bootstrap";
 
 const Create = () => {
   // State variables for the form fields and functions to update them
@@ -8,6 +8,7 @@ const Create = () => {
   const [steps, setSteps] = useState(['']);
   const [image, setImage] = useState('');
   const [allergens, setAllergens] = useState([]);
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
 
   // List of allergens
   const allergensList = [
@@ -55,7 +56,9 @@ const Create = () => {
     console.log(recipe);
 
     axios.post('http://localhost:4000/api/recipes', recipe) // Axios POST request to add the recipe to the database
-      .then((res) => { console.log(res.data); })
+      .then(() => {
+        setShowModal(true); // Show success modal on successful submission
+      })
       .catch((error) => {
         console.error("Error adding the recipe:", error);
       });
@@ -138,6 +141,21 @@ const Create = () => {
           </div>
         </Form>
       </Card>
+
+      {/* Success Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Recipe Added Successfully!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Your recipe has been added to the database.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
