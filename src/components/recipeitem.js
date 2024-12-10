@@ -6,7 +6,7 @@ import axios from "axios";
 function RecipeItem(props) { 
   const handleDelete = (e) => { 
       e.preventDefault(); 
-      axios.delete('http://localhost:4000/api/recipe/' + props.myRecipe._id) 
+      axios.delete('http://localhost:4000/api/recipe/' + props.myRecipe._id) // Axios DELETE request to delete the recipe from the server
           .then(() => {
               props.Reload(); // Refresh the recipe list after deletion
           })
@@ -16,6 +16,7 @@ function RecipeItem(props) {
   };
 
   return (
+    // Display the recipe details
     <div>
       <Card>
         <Card.Header>{props.myRecipe.title}</Card.Header> 

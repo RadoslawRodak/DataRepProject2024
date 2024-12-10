@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const Edit = () => {
     const { id } = useParams(); // useParams hook to access the URL parameter and extract the id
-    const [title, setTitle] = useState(''); // useState for title
-    const [steps, setSteps] = useState([]); // useState for steps
-    const [image, setImage] = useState(''); // useState for image
-    const [allergens, setAllergens] = useState([]); // useState for allergens (array of selected allergens)
+    const [title, setTitle] = useState(''); 
+    const [steps, setSteps] = useState([]); 
+    const [image, setImage] = useState(''); 
+    const [allergens, setAllergens] = useState([]); 
     const navigate = useNavigate(); // useNavigate hook for navigation
 
     const availableAllergens = [
@@ -19,11 +19,12 @@ const Edit = () => {
     useEffect(() => {
         axios.get('http://localhost:4000/api/recipe/' + id)
             .then((res) => {
+                // Set the state with the fetched recipe data from the server
                 console.log("Success", res.data);
                 setTitle(res.data.title);
                 setSteps(res.data.steps);
                 setImage(res.data.image);
-                setAllergens(res.data.allergens || []); // Set allergens from the backend if available
+                setAllergens(res.data.allergens || []); // Set allergens to an empty array if no allergens are present
             })
             .catch((err) => {
                 console.log(err);
@@ -33,7 +34,7 @@ const Edit = () => {
     // Handle the form submission to update the recipe
     const handleSubmit = (e) => {
         e.preventDefault(); // Prevent default form behavior
-        const recipe = { title, steps, image, allergens }; // Include allergens in the recipe object
+        const recipe = { title, steps, image, allergens }; 
 
         axios.put('http://localhost:4000/api/recipe/' + id, recipe) // Axios PUT request to update the recipe
             .then((res) => {
@@ -74,6 +75,7 @@ const Edit = () => {
     };
 
     return (
+        //form for editing a recipe with bootstrap styling
         <div>
             <h3>Edit Recipe</h3>
             <form onSubmit={handleSubmit}>

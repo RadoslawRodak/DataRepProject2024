@@ -23,15 +23,17 @@ function RecipeDetails() {
   }
 
   return (
+    //Display the recipe details
     <div>
       <h1>{recipe.title}</h1>
-      <img 
-        src={recipe.image} 
-        alt={recipe.title} 
-        style={{ width: '100%', height: 'auto', maxWidth: '600px' }} 
+      <img
+        src={recipe.image}
+        alt={recipe.title}
+        style={{ width: '100%', height: 'auto', maxWidth: '600px' }}
       />
       <h3>Steps</h3>
       <ul>
+        {/* Map over the steps array and display each step */}
         {recipe.steps.map((step, index) => (
           <li key={index}>{step}</li>
         ))}

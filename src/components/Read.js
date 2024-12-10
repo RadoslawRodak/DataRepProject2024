@@ -8,9 +8,9 @@ function Read() {
 
   const Reload = () => {
     console.log("Reloading recipe data...");
-    axios.get('http://localhost:4000/api/recipes')
+    axios.get('http://localhost:4000/api/recipes') // Fetch all recipes from the server
       .then((response) => {
-        setData(response.data.recipes);
+        setData(response.data.recipes); // Update the state with the fetched data
       })
       .catch((error) => {
         console.error("Error reloading data:", error);
@@ -34,6 +34,7 @@ function Read() {
   };
 
   return (
+    // Display the list of recipes
     <Container className="my-5">
       <h2 className="text-center mb-4">Recipe List</h2>
       <Row>
@@ -54,13 +55,7 @@ function Read() {
                       )}
                   </ul>
                 </Card.Text>
-                <Button
-                  variant="primary"
-                  href={`/recipe/${recipe._id}`}
-                  className="w-100 mb-2"
-                >
-                  View Recipe
-                </Button>
+                <Button variant="primary" href={`/recipe/${recipe._id}`} className="w-100 mb-2">View Recipe</Button>
                 <Row>
                   <Col>
                     <Link to={`/edit/${recipe._id}`}>
@@ -68,13 +63,7 @@ function Read() {
                     </Link>
                   </Col>
                   <Col>
-                    <Button
-                      variant="danger"
-                      className="w-100"
-                      onClick={() => handleDelete(recipe._id)}
-                    >
-                      Delete
-                    </Button>
+                    <Button variant="danger" className="w-100" onClick={() => handleDelete(recipe._id)}>Delete</Button>
                   </Col>
                 </Row>
               </Card.Body>
