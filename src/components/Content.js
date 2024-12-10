@@ -7,12 +7,12 @@ const Content = () => {
   const [featuredRecipe, setFeaturedRecipe] = useState(null); //An array containing the current featured recipe object or null, and a function to update it.
   const [loading, setLoading] = useState(true); //An array containing the current loading state and a function to update it.
 
-  
+
   useEffect(() => {
     const fetchFeaturedRecipe = async () => { //An async function that fetches the featured recipe from the server.
       try {
         const response = await fetch('http://localhost:4000/api/featured-recipe'); // API endpoint
-        const data = await response.json(); 
+        const data = await response.json();
         setFeaturedRecipe(data);// Update the featured recipe state with the fetched data
       } catch (error) {
         console.error('Error fetching featured recipe:', error);

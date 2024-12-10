@@ -3,27 +3,27 @@ import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import axios from "axios";
 
-function RecipeItem(props) { 
-  const handleDelete = (e) => { 
-      e.preventDefault(); 
-      axios.delete('http://localhost:4000/api/recipe/' + props.myRecipe._id) // Axios DELETE request to delete the recipe from the server
-          .then(() => {
-              props.Reload(); // Refresh the recipe list after deletion
-          })
-          .catch((error) => {
-              console.error("Error deleting recipe:", error);
-          });
+function RecipeItem(props) {
+  const handleDelete = (e) => {
+    e.preventDefault();
+    axios.delete('http://localhost:4000/api/recipe/' + props.myRecipe._id) // Axios DELETE request to delete the recipe from the server
+      .then(() => {
+        props.Reload(); // Refresh the recipe list after deletion
+      })
+      .catch((error) => {
+        console.error("Error deleting recipe:", error);
+      });
   };
 
   return (
     // Display the recipe details
     <div>
       <Card>
-        <Card.Header>{props.myRecipe.title}</Card.Header> 
+        <Card.Header>{props.myRecipe.title}</Card.Header>
         <Card.Body>
           <blockquote className="blockquote mb-0">
             <img src={props.myRecipe.image} alt={props.myRecipe.title} />
-            
+
             {/* Displaying steps */}
             <h5>Steps:</h5>
             <ul>
@@ -45,7 +45,7 @@ function RecipeItem(props) {
             )}
           </blockquote>
         </Card.Body>
-        <Link className="btn btn-primary" to={"/edit/"+props.myRecipe._id}>Edit</Link>
+        <Link className="btn btn-primary" to={"/edit/" + props.myRecipe._id}>Edit</Link>
         <Button variant="danger" onClick={handleDelete}>Delete</Button>
       </Card>
     </div>

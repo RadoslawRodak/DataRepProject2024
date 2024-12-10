@@ -11,14 +11,14 @@ const Create = () => {
 
   // List of allergens
   const allergensList = [
-    "Peanuts", 
-    "Dairy", 
-    "Gluten", 
-    "Shellfish", 
-    "Eggs", 
-    "Soy", 
-    "Tree Nuts", 
-    "Wheat", 
+    "Peanuts",
+    "Dairy",
+    "Gluten",
+    "Shellfish",
+    "Eggs",
+    "Soy",
+    "Tree Nuts",
+    "Wheat",
     "Fish"
   ];
 
@@ -42,8 +42,8 @@ const Create = () => {
 
   const handleAllergenChange = (e) => {
     const value = e.target.value;
-    setAllergens((prevAllergens) => 
-      prevAllergens.includes(value) 
+    setAllergens((prevAllergens) =>
+      prevAllergens.includes(value)
         ? prevAllergens.filter(item => item !== value) // Remove if already selected, ? is used to check if the allergen is already selected
         : [...prevAllergens, value] // Add if not selected
     );
@@ -51,7 +51,7 @@ const Create = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const recipe = { title, steps, image, allergens}; // Create a new recipe object
+    const recipe = { title, steps, image, allergens }; // Create a new recipe object
     console.log(recipe);
 
     axios.post('http://localhost:4000/api/recipes', recipe) // Axios POST request to add the recipe to the database
@@ -87,7 +87,7 @@ const Create = () => {
                   type="text"
                   placeholder="Enter image URL"
                   value={image}
-                  onChange={(e) => { setImage(e.target.value); }}                  
+                  onChange={(e) => { setImage(e.target.value); }}
                 />
               </Form.Group>
             </Col>

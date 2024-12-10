@@ -2,7 +2,7 @@ import RecipeItem from "./recipeitem.js";
 
 function Recipes(props) { //props is used to pass data from one component to another
     return (
-        <> 
+        <>
             {props.myRecipes.map((recipe) => ( //map function is used to iterate through the recipes
                 <RecipeItem
                     myRecipe={recipe} //myRecipe is used to pass the recipe object to the recipeItem component
