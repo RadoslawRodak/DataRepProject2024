@@ -2,13 +2,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
 
 const Edit = () => {
     const { id } = useParams(); // useParams hook to access the URL parameter and extract the id
-    const [title, setTitle] = useState(''); 
-    const [steps, setSteps] = useState([]); 
-    const [image, setImage] = useState(''); 
-    const [allergens, setAllergens] = useState([]); 
+    const [title, setTitle] = useState('');
+    const [steps, setSteps] = useState([]);
+    const [image, setImage] = useState('');
+    const [allergens, setAllergens] = useState([]);
     const navigate = useNavigate(); // useNavigate hook for navigation
 
     const availableAllergens = [
@@ -34,7 +35,7 @@ const Edit = () => {
     // Handle the form submission to update the recipe
     const handleSubmit = (e) => {
         e.preventDefault(); // Prevent default form behavior
-        const recipe = { title, steps, image, allergens }; 
+        const recipe = { title, steps, image, allergens };
 
         axios.put('http://localhost:4000/api/recipe/' + id, recipe) // Axios PUT request to update the recipe
             .then((res) => {
@@ -75,75 +76,83 @@ const Edit = () => {
     };
 
     return (
-        //form for editing a recipe with bootstrap styling
-        <div>
-            <h3>Edit Recipe</h3>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Edit Recipe Title: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                </div>
-
-                {/* Steps Input */}
-                <div className="form-group">
-                    <label>Edit Recipe Steps: </label>
-                    {steps.map((step, index) => (
-                        <div key={index} className="step-container">
-                            <input
+        <Container className="my-5">
+            <Card>
+                <Card.Header as="h3">Edit Recipe</Card.Header>
+                <Card.Body>
+                    <Form onSubmit={handleSubmit}>
+                        {/* Title */}
+                        <Form.Group className="mb-3">
+                            <Form.Label>Edit Recipe Title</Form.Label>
+                            <Form.Control
                                 type="text"
-                                className="form-control"
-                                value={step}
-                                onChange={(e) => handleStepChange(e, index)}
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
                             />
-                            <button type="button" className="btn btn-danger" onClick={() => handleRemoveStep(index)}>
-                                Remove Step
-                            </button>
-                        </div>
-                    ))}
-                    <button type="button" className="btn btn-secondary" onClick={handleAddStep}>
-                        Add Step
-                    </button>
-                </div>
+                        </Form.Group>
 
-                {/* Allergens Checkbox Input */}
-                <div className="form-group">
-                    <label>Edit Allergens: </label>
-                    {availableAllergens.map((allergen) => (
-                        <div key={allergen} className="checkbox-container">
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    value={allergen}
-                                    checked={allergens.includes(allergen)} // Check if the allergen is selected
-                                    onChange={handleAllergenChange} // Handle change for the checkbox
-                                />
-                                {allergen}
-                            </label>
-                        </div>
-                    ))}
-                </div>
+                        {/* Steps */}
+                        <Form.Group className="mb-3">
+                            <Form.Label>Edit Recipe Steps</Form.Label>
+                            {steps.map((step, index) => (
+                                <Row className="mb-2" key={index}>
+                                    <Col xs={10}>
+                                        <Form.Control
+                                            type="text"
+                                            value={step}
+                                            onChange={(e) => handleStepChange(e, index)}
+                                        />
+                                    </Col>
+                                    <Col xs={2}>
+                                        <Button
+                                            variant="danger"
+                                            onClick={() => handleRemoveStep(index)}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            ))}
+                            <Button variant="secondary" onClick={handleAddStep}>
+                                Add Step
+                            </Button>
+                        </Form.Group>
 
-                {/* Image Input */}
-                <div className="form-group">
-                    <label>Edit Recipe Image: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        value={image}
-                        onChange={(e) => setImage(e.target.value)}
-                    />
-                </div>
+                        {/* Allergens */}
+                        <Form.Group className="mb-3">
+                            <Form.Label>Edit Allergens</Form.Label>
+                            <Row>
+                                {availableAllergens.map((allergen) => (
+                                    <Col xs={6} md={4} key={allergen}>
+                                        <Form.Check
+                                            type="checkbox"
+                                            label={allergen}
+                                            value={allergen}
+                                            checked={allergens.includes(allergen)}
+                                            onChange={handleAllergenChange}
+                                        />
+                                    </Col>
+                                ))}
+                            </Row>
+                        </Form.Group>
 
-                <div>
-                    <input type="submit" value="Edit Recipe" className="btn btn-primary" />
-                </div>
-            </form>
-        </div>
+                        {/* Image */}
+                        <Form.Group className="mb-3">
+                            <Form.Label>Edit Recipe Image</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={image}
+                                onChange={(e) => setImage(e.target.value)}
+                            />
+                        </Form.Group>
+
+                        <Button variant="primary" type="submit">
+                            Save Changes
+                        </Button>
+                    </Form>
+                </Card.Body>
+            </Card>
+        </Container>
     );
 };
 
