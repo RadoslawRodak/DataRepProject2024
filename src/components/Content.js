@@ -4,8 +4,8 @@ import { Button, Card, Container, Spinner } from 'react-bootstrap';
 
 const Content = () => {
   // State for the featured recipe and loading state
-  const [featuredRecipe, setFeaturedRecipe] = useState(null); //An array containing the current featured recipe object or null, and a function to update it.
-  const [loading, setLoading] = useState(true); //An array containing the current loading state and a function to update it.
+  const [featuredRecipe, setFeaturedRecipe] = useState(null); 
+  const [loading, setLoading] = useState(true); 
 
 
   useEffect(() => {

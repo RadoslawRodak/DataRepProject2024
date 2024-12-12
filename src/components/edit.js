@@ -5,18 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
 
 const Edit = () => {
-    const { id } = useParams(); // useParams hook to access the URL parameter and extract the id
+    // Get the states from the URL parameters
+    const { id } = useParams();
     const [title, setTitle] = useState('');
     const [steps, setSteps] = useState([]);
     const [image, setImage] = useState('');
     const [allergens, setAllergens] = useState([]);
-    const navigate = useNavigate(); // useNavigate hook for navigation
+    const navigate = useNavigate();
 
     const availableAllergens = [
         "Gluten", "Dairy", "Peanuts", "Eggs", "Soy", "Fish", "Shellfish", "Tree Nuts"
     ]; // predefined list of allergens
 
-    // Fetch the recipe data from the server when the component is mounted
     useEffect(() => {
         axios.get('http://localhost:4000/api/recipe/' + id)
             .then((res) => {
@@ -54,15 +54,15 @@ const Edit = () => {
 
     // Handle changes to individual steps
     const handleStepChange = (e, index) => {
-        const updatedSteps = [...steps]; // Create a copy of the steps array
-        updatedSteps[index] = e.target.value; // Update the specific step
-        setSteps(updatedSteps); // Set the updated steps array
+        const updatedSteps = [...steps];
+        updatedSteps[index] = e.target.value;
+        setSteps(updatedSteps);
     };
 
     // Remove a step
     const handleRemoveStep = (index) => {
-        const updatedSteps = steps.filter((step, i) => i !== index); // Remove the step at the specified index
-        setSteps(updatedSteps); // Set the updated steps array
+        const updatedSteps = steps.filter((step, i) => i !== index);
+        setSteps(updatedSteps);
     };
 
     // Handle allergen checkbox changes
